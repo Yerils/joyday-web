@@ -134,6 +134,11 @@
                     class="w-full px-4 py-3 rounded-2xl border-2 border-joy-200 bg-white focus:border-joy-500 focus:outline-none"></textarea>
           <p id="alamatErr" class="hidden text-red-600 text-sm mt-1">Alamat lengkap wajib diisi.</p>
         </div>
+        <div>
+          <label for="catatan" class="block font-bold text-sm mb-1">Catatan <span class="font-normal text-slate-500">(opsional)</span></label>
+          <textarea id="catatan" rows="2" maxlength="500" placeholder="Contoh: bonus untuk pembelian kali ini, permintaan khusus, dll."
+                    class="w-full px-4 py-3 rounded-2xl border-2 border-joy-200 bg-white focus:border-joy-500 focus:outline-none"></textarea>
+        </div>
       </form>
     </div>
   </div>
@@ -174,11 +179,12 @@ function loadState() {
     cart = s.cart || {};
     if (s.kios) $('kios').value = s.kios;
     if (s.alamat) $('alamat').value = s.alamat;
+    if (s.catatan) $('catatan').value = s.catatan;
   } catch (e) { cart = {}; }
 }
 function saveState() {
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ cart, kios: $('kios').value, alamat: $('alamat').value }));
+    localStorage.setItem(STORE_KEY, JSON.stringify({ cart, kios: $('kios').value, alamat: $('alamat').value, catatan: $('catatan').value }));
   } catch (e) { /* penyimpanan tidak tersedia, abaikan */ }
 }
 
@@ -316,9 +322,12 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(
   $(id + 'Err').classList.add('hidden');
 }));
 
+$('catatan').addEventListener('input', saveState);
+
 $('sendWA').addEventListener('click', () => {
   const kios = $('kios').value.trim();
   const alamat = $('alamat').value.trim();
+  const catatan = $('catatan').value.trim();
   $('kiosErr').classList.toggle('hidden', !!kios);
   $('alamatErr').classList.toggle('hidden', !!alamat);
   if (!kios) return $('kios').focus();
@@ -327,12 +336,13 @@ $('sendWA').addEventListener('click', () => {
   const ids = Object.keys(cart).map(Number).sort((a, b) => a - b);
   if (!ids.length) return;
 
-  // Hanya nama produk, satu per baris (tanpa bintang, tanpa "pcs", tanpa baris kosong ganda)
-  const lines = ids.map(id => BY_ID[id].name).join('\n');
+  // Satu produk per baris. Jumlah 1 = nama saja; jumlah 2 atau lebih = "Nama x2"
+  const lines = ids.map(id => cart[id] > 1 ? `${BY_ID[id].name} x${cart[id]}` : BY_ID[id].name).join('\n');
   const message =
     `Kios: ${kios}\n` +
     `Alamat: ${alamat}\n\n` +
-    `Detail Pesanan:\n${lines}\n\n`;
+    `Detail Pesanan:\n${lines}\n\n` +
+    (catatan ? `Catatan:\n${catatan}\n\n` : '');
 
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
 
@@ -340,6 +350,7 @@ $('sendWA').addEventListener('click', () => {
   cart = {};
   $('kios').value = '';
   $('alamat').value = '';
+  $('catatan').value = '';
   $('kiosErr').classList.add('hidden');
   $('alamatErr').classList.add('hidden');
   saveState();
