@@ -1,0 +1,275 @@
+{
+  "whatsapp": "6281340232694",
+  "products": [
+    {
+      "id": 1,
+      "name": "Premice macha",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "Premice almond",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "Cvc",
+      "image": ""
+    },
+    {
+      "id": 4,
+      "name": "Ccl",
+      "image": ""
+    },
+    {
+      "id": 5,
+      "name": "Crunchy bar",
+      "image": ""
+    },
+    {
+      "id": 6,
+      "name": "Crunchy bar stroberi",
+      "image": ""
+    },
+    {
+      "id": 7,
+      "name": "Ccb",
+      "image": ""
+    },
+    {
+      "id": 8,
+      "name": "Ccm",
+      "image": ""
+    },
+    {
+      "id": 9,
+      "name": "Cofelate",
+      "image": ""
+    },
+    {
+      "id": 10,
+      "name": "Kacang ijo",
+      "image": ""
+    },
+    {
+      "id": 11,
+      "name": "Lalava",
+      "image": ""
+    },
+    {
+      "id": 12,
+      "name": "Taro",
+      "image": ""
+    },
+    {
+      "id": 13,
+      "name": "C blubery",
+      "image": ""
+    },
+    {
+      "id": 14,
+      "name": "C stroberi",
+      "image": ""
+    },
+    {
+      "id": 15,
+      "name": "Happy cow",
+      "image": ""
+    },
+    {
+      "id": 16,
+      "name": "Happy duck",
+      "image": ""
+    },
+    {
+      "id": 17,
+      "name": "Sweet corn",
+      "image": ""
+    },
+    {
+      "id": 18,
+      "name": "Choco corn",
+      "image": ""
+    },
+    {
+      "id": 19,
+      "name": "Choco Crunchy",
+      "image": ""
+    },
+    {
+      "id": 20,
+      "name": "Choco omalt",
+      "image": ""
+    },
+    {
+      "id": 21,
+      "name": "Cotton candy",
+      "image": ""
+    },
+    {
+      "id": 22,
+      "name": "Twiscone coffee",
+      "image": ""
+    },
+    {
+      "id": 23,
+      "name": "Twiscone forest",
+      "image": ""
+    },
+    {
+      "id": 24,
+      "name": "Frutti duo",
+      "image": ""
+    },
+    {
+      "id": 25,
+      "name": "Tropical duo",
+      "image": ""
+    },
+    {
+      "id": 26,
+      "name": "Galaxi",
+      "image": ""
+    },
+    {
+      "id": 27,
+      "name": "Susu",
+      "image": ""
+    },
+    {
+      "id": 28,
+      "name": "Kokomi",
+      "image": ""
+    },
+    {
+      "id": 29,
+      "name": "Choco bery",
+      "image": ""
+    },
+    {
+      "id": 30,
+      "name": "Nanas",
+      "image": ""
+    },
+    {
+      "id": 31,
+      "name": "Semanga",
+      "image": ""
+    },
+    {
+      "id": 32,
+      "name": "Choco fun",
+      "image": ""
+    },
+    {
+      "id": 33,
+      "name": "Cdc",
+      "image": ""
+    },
+    {
+      "id": 34,
+      "name": "Css",
+      "image": ""
+    },
+    {
+      "id": 35,
+      "name": "Cdd",
+      "image": ""
+    },
+    {
+      "id": 36,
+      "name": "Grande scoop",
+      "image": ""
+    },
+    {
+      "id": 37,
+      "name": "D scoop coklat",
+      "image": ""
+    },
+    {
+      "id": 38,
+      "name": "D scoop manga",
+      "image": ""
+    },
+    {
+      "id": 39,
+      "name": "D scoop stroberi",
+      "image": ""
+    },
+    {
+      "id": 40,
+      "name": "D scoop vanila",
+      "image": ""
+    },
+    {
+      "id": 41,
+      "name": "Mochi stroberi",
+      "image": ""
+    },
+    {
+      "id": 42,
+      "name": "Mochi coklat",
+      "image": ""
+    },
+    {
+      "id": 43,
+      "name": "Mochi durian",
+      "image": ""
+    },
+    {
+      "id": 44,
+      "name": "Joycone",
+      "image": ""
+    },
+    {
+      "id": 45,
+      "name": "Neapotian 350",
+      "image": ""
+    },
+    {
+      "id": 46,
+      "name": "Dark cookies 350",
+      "image": ""
+    },
+    {
+      "id": 47,
+      "name": "Sandwich tiramisu",
+      "image": ""
+    },
+    {
+      "id": 48,
+      "name": "Sandwich macha",
+      "image": ""
+    },
+    {
+      "id": 49,
+      "name": "Sandwich vanilla bery",
+      "image": ""
+    },
+    {
+      "id": 50,
+      "name": "Neapotian 1liter",
+      "image": ""
+    },
+    {
+      "id": 51,
+      "name": "Dolce vanila",
+      "image": ""
+    },
+    {
+      "id": 52,
+      "name": "Dolce black Forest",
+      "image": ""
+    },
+    {
+      "id": 53,
+      "name": "Neapolitan 700ml",
+      "image": ""
+    },
+    {
+      "id": 54,
+      "name": "Nepolitan 160ml",
+      "image": ""
+    }
+  ]
+}

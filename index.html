@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pesan Es Krim Joyday</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: { display: ['Fredoka', 'sans-serif'], body: ['Nunito', 'sans-serif'] },
+      colors: { joy: { 50:'#EEF9FF', 100:'#D9F1FF', 200:'#B4E3FF', 400:'#4FB8F0', 500:'#1E9BE3', 600:'#0F7FC4', 800:'#0B4A75' },
+                sun: { 200:'#FFF0A3', 300:'#FFE45C', 400:'#FFD21F', 500:'#F5BC00' } }
+    } }
+  }
+</script>
+<style>
+  body { font-family: 'Nunito', sans-serif; }
+  .drip { background: radial-gradient(circle at 12px 0, #FFE45C 11px, transparent 12px) repeat-x; background-size: 48px 26px; height: 26px; }
+  input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type=number] { -moz-appearance: textfield; }
+  #drawer { transition: transform .3s ease; }
+  #overlay { transition: opacity .3s ease; }
+  .bob { animation: bob 3.2s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-6deg);} 50% { transform: translateY(-14px) rotate(-2deg);} }
+  @media (prefers-reduced-motion: reduce) { .bob { animation: none; } #drawer, #overlay { transition: none; } }
+</style>
+</head>
+<body class="bg-joy-50 text-slate-800 antialiased">
+
+<!-- NAVBAR -->
+<header class="sticky top-0 z-30 bg-joy-500 shadow-md">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2 font-display text-2xl font-bold text-white">
+      <span class="w-10 h-10 rounded-full bg-sun-300 text-joy-600 flex items-center justify-center"><i class="fa-solid fa-ice-cream"></i></span>
+      Joyday
+    </a>
+    <button id="openCart" class="relative flex items-center gap-2 bg-sun-300 hover:bg-sun-400 text-joy-800 font-bold px-4 py-2 rounded-full transition focus:outline-none focus-visible:ring-4 ring-white/70" aria-label="Buka keranjang">
+      <i class="fa-solid fa-cart-shopping"></i><span class="hidden sm:inline">Keranjang</span>
+      <span id="cartBadge" class="hidden absolute -top-2 -right-2 min-w-[1.5rem] h-6 px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative bg-joy-500 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-4 pt-12 pb-24 md:pt-16 md:pb-28 grid md:grid-cols-2 gap-8 items-center">
+    <div class="relative z-10">
+      <h1 class="font-display font-bold text-white text-4xl sm:text-5xl lg:text-6xl leading-[1.1]">
+        Stok es krim kios Anda, <span class="text-sun-300">tinggal satu pesan.</span>
+      </h1>
+      <p class="mt-5 text-joy-100 text-lg max-w-md">
+        Pilih varian Joyday, tentukan jumlahnya, lalu kirim daftar pesanan langsung ke WhatsApp admin.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href="#katalog" class="inline-flex items-center gap-2 bg-sun-300 hover:bg-sun-400 text-joy-800 font-bold px-6 py-3 rounded-full shadow-lg transition focus:outline-none focus-visible:ring-4 ring-white/70">
+          <i class="fa-solid fa-ice-cream"></i> Mulai pesan
+        </a>
+        <span class="inline-flex items-center gap-2 text-white/90 font-semibold px-2 py-3">
+          <i class="fa-brands fa-whatsapp text-xl text-sun-300"></i> Tanpa login, tanpa bayar di sini
+        </span>
+      </div>
+    </div>
+    <div class="relative hidden md:flex justify-center items-center h-72">
+      <div class="absolute w-72 h-72 rounded-full bg-joy-400/60"></div>
+      <div class="absolute w-48 h-48 rounded-full bg-sun-300/90 -right-2 top-2"></div>
+      <i class="bob fa-solid fa-ice-cream relative text-white drop-shadow-xl" style="font-size:11rem"></i>
+    </div>
+  </div>
+  <div class="drip absolute bottom-0 left-0 right-0 rotate-180 translate-y-px" aria-hidden="true"></div>
+</section>
+
+<!-- KATALOG -->
+<main id="katalog" class="max-w-6xl mx-auto px-4 pt-10 pb-20 scroll-mt-20">
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+    <div>
+      <h2 class="font-display text-3xl font-bold text-joy-800">Katalog es krim</h2>
+      <p id="resultInfo" class="text-slate-500"></p>
+    </div>
+    <div class="relative w-full sm:w-80">
+      <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-joy-400"></i>
+      <input id="search" type="search" placeholder="Cari nama es krim..." autocomplete="off"
+             class="w-full pl-11 pr-4 py-3 rounded-full bg-white border-2 border-joy-200 focus:border-joy-500 focus:outline-none">
+    </div>
+  </div>
+
+  <div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5"></div>
+
+  <div id="empty" class="hidden text-center py-16">
+    <i class="fa-regular fa-face-sad-tear text-5xl text-joy-200"></i>
+    <p class="mt-3 font-semibold text-slate-600">Tidak ada es krim dengan nama itu.</p>
+    <p class="text-slate-500">Coba kata kunci lain, misalnya "mochi" atau "choco".</p>
+  </div>
+</main>
+
+<footer class="bg-joy-600 text-joy-100 text-center py-6 text-sm">
+  <i class="fa-solid fa-ice-cream text-sun-300"></i> Joyday Ice Cream. Pesanan dikirim via WhatsApp.
+</footer>
+
+<!-- TOAST -->
+<div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-6 z-50 hidden max-w-[90vw] bg-joy-800 text-white px-5 py-3 rounded-full shadow-xl text-sm font-semibold"></div>
+
+<!-- KERANJANG (DRAWER) -->
+<div id="overlay" class="fixed inset-0 z-40 bg-slate-900/50 opacity-0 pointer-events-none"></div>
+<aside id="drawer" class="fixed top-0 right-0 z-50 h-full w-full sm:w-[26rem] bg-white shadow-2xl flex flex-col translate-x-full" role="dialog" aria-modal="true" aria-labelledby="cartTitle" aria-hidden="true">
+  <div class="flex items-center justify-between px-5 h-16 bg-joy-500 text-white shrink-0">
+    <h2 id="cartTitle" class="font-display text-xl font-bold"><i class="fa-solid fa-cart-shopping text-sun-300"></i> Pesanan Anda</h2>
+    <button id="closeCart" class="w-10 h-10 rounded-full hover:bg-white/20 focus:outline-none focus-visible:ring-4 ring-white/70" aria-label="Tutup keranjang"><i class="fa-solid fa-xmark text-xl"></i></button>
+  </div>
+
+  <div class="flex-1 overflow-y-auto">
+    <div id="cartEmpty" class="hidden text-center px-8 py-16">
+      <i class="fa-solid fa-ice-cream text-6xl text-joy-200"></i>
+      <p class="mt-4 font-semibold text-slate-600">Keranjang masih kosong.</p>
+      <button id="backToShop" class="mt-5 bg-joy-500 hover:bg-joy-600 text-white font-bold px-6 py-2.5 rounded-full">Pilih es krim</button>
+    </div>
+
+    <div id="cartFilled" class="hidden">
+      <ul id="cartList" class="divide-y divide-joy-100"></ul>
+
+      <form id="checkoutForm" class="p-5 space-y-4 bg-joy-50 border-t-4 border-sun-300" novalidate>
+        <h3 class="font-display font-semibold text-lg text-joy-800"><i class="fa-solid fa-store text-sun-500"></i> Data pemesan</h3>
+        <div>
+          <label for="kios" class="block font-bold text-sm mb-1">Nama kios / toko <span class="text-red-500">*</span></label>
+          <input id="kios" type="text" required maxlength="100" placeholder="Contoh: Kios Maju Jaya"
+                 class="w-full px-4 py-3 rounded-2xl border-2 border-joy-200 bg-white focus:border-joy-500 focus:outline-none">
+          <p id="kiosErr" class="hidden text-red-600 text-sm mt-1">Nama kios wajib diisi.</p>
+        </div>
+        <div>
+          <label for="alamat" class="block font-bold text-sm mb-1">Alamat lengkap <span class="text-red-500">*</span></label>
+          <textarea id="alamat" rows="3" required maxlength="500" placeholder="Jalan, nomor, kelurahan, kota"
+                    class="w-full px-4 py-3 rounded-2xl border-2 border-joy-200 bg-white focus:border-joy-500 focus:outline-none"></textarea>
+          <p id="alamatErr" class="hidden text-red-600 text-sm mt-1">Alamat lengkap wajib diisi.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="cartFooter" class="hidden shrink-0 p-4 border-t border-joy-100 bg-white">
+    <div class="flex items-center justify-between text-sm mb-3">
+      <span id="cartSummary" class="font-semibold text-slate-600"></span>
+      <button id="clearCart" class="text-red-500 hover:underline font-semibold">Kosongkan</button>
+    </div>
+    <button id="sendWA" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold text-lg py-3.5 rounded-full shadow-lg transition flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-4 ring-green-300">
+      <i class="fa-brands fa-whatsapp text-2xl"></i> Kirim Pesanan via WA
+    </button>
+  </div>
+</aside>
+
+<script>
+/* ===================== DATA (dari products.json) ===================== */
+let WA_NUMBER = '';
+let PRODUCTS = [];
+let BY_ID = {};
+
+// Escape teks dari JSON sebelum disisipkan ke HTML
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+// Hanya izinkan gambar dari path relatif atau https
+const safeImg = u => (/^(https:\/\/|\.?\/?[\w\-\/.]+\.(png|jpe?g|webp|gif|svg)$)/i.test(u || '') ? esc(u) : '');
+
+/* ===================== STATE ===================== */
+const STORE_KEY = 'joyday_cart_v1';
+let cart = {};      // { productId: qty }
+const draft = {};   // jumlah sementara di kartu katalog
+
+const $ = id => document.getElementById(id);
+const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+    cart = s.cart || {};
+    if (s.kios) $('kios').value = s.kios;
+    if (s.alamat) $('alamat').value = s.alamat;
+  } catch (e) { cart = {}; }
+}
+function saveState() {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({ cart, kios: $('kios').value, alamat: $('alamat').value }));
+  } catch (e) { /* penyimpanan tidak tersedia, abaikan */ }
+}
+
+/* ===================== KATALOG ===================== */
+const TINTS = ['from-joy-100 to-joy-200', 'from-sun-200 to-sun-300', 'from-joy-200 to-sun-200'];
+
+function renderGrid() {
+  $('grid').innerHTML = PRODUCTS.map((p, i) => `
+    <article class="product bg-white rounded-3xl shadow-sm hover:shadow-lg transition overflow-hidden flex flex-col" data-id="${+p.id}" data-name="${esc(p.name.toLowerCase())}">
+      <div class="aspect-[4/3] bg-gradient-to-br ${TINTS[i % 3]} flex items-center justify-center">
+        ${safeImg(p.image) ? `<img src="${safeImg(p.image)}" alt="${esc(p.name)}" loading="lazy" class="w-full h-full object-cover">`
+                : `<i class="fa-solid fa-ice-cream text-5xl sm:text-6xl text-white drop-shadow"></i>`}
+      </div>
+      <div class="p-3 sm:p-4 flex flex-col flex-1">
+        <h3 class="font-display font-semibold text-joy-800 text-base sm:text-lg leading-tight min-h-[2.5rem]">${esc(p.name)}</h3>
+        <div class="mt-3 flex items-center justify-between bg-joy-50 rounded-full p-1">
+          <button data-act="dec" class="w-9 h-9 rounded-full bg-white text-joy-600 shadow-sm hover:bg-joy-100 focus:outline-none focus-visible:ring-2 ring-joy-500" aria-label="Kurangi jumlah ${esc(p.name)}"><i class="fa-solid fa-minus"></i></button>
+          <input data-act="input" type="number" inputmode="numeric" min="1" max="999" value="1" aria-label="Jumlah ${esc(p.name)}"
+                 class="w-12 text-center font-bold bg-transparent focus:outline-none">
+          <button data-act="inc" class="w-9 h-9 rounded-full bg-white text-joy-600 shadow-sm hover:bg-joy-100 focus:outline-none focus-visible:ring-2 ring-joy-500" aria-label="Tambah jumlah ${esc(p.name)}"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <button data-act="add" class="mt-3 w-full bg-sun-300 hover:bg-sun-400 text-joy-800 font-bold py-2.5 rounded-full transition flex items-center justify-center gap-1.5 text-sm focus:outline-none focus-visible:ring-2 ring-joy-500">
+          <i class="fa-solid fa-plus"></i> Keranjang
+        </button>
+      </div>
+    </article>`).join('');
+  applyFilter();
+}
+
+$('grid').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-act]');
+  if (!btn) return;
+  const card = btn.closest('.product');
+  const id = +card.dataset.id;
+  const input = card.querySelector('input');
+  const cur = clamp(parseInt(input.value) || 1, 1, 999);
+  if (btn.dataset.act === 'dec') input.value = clamp(cur - 1, 1, 999);
+  if (btn.dataset.act === 'inc') input.value = clamp(cur + 1, 1, 999);
+  if (btn.dataset.act === 'add') {
+    cart[id] = clamp((cart[id] || 0) + cur, 1, 999);
+    input.value = 1;
+    saveState(); renderCart();
+    toast(`${esc(BY_ID[id].name)} (${cur} pcs) masuk keranjang`);
+  }
+});
+$('grid').addEventListener('change', e => {
+  if (e.target.matches('input[data-act="input"]')) e.target.value = clamp(parseInt(e.target.value) || 1, 1, 999);
+});
+
+/* ===================== PENCARIAN ===================== */
+function applyFilter() {
+  const q = $('search').value.trim().toLowerCase();
+  let n = 0;
+  document.querySelectorAll('.product').forEach(c => {
+    const show = c.dataset.name.includes(q);
+    c.classList.toggle('hidden', !show);
+    if (show) n++;
+  });
+  $('empty').classList.toggle('hidden', n > 0);
+  $('resultInfo').textContent = q ? `${n} dari ${PRODUCTS.length} varian cocok` : `${PRODUCTS.length} varian siap dipesan`;
+}
+$('search').addEventListener('input', applyFilter);
+
+/* ===================== KERANJANG ===================== */
+function renderCart() {
+  const ids = Object.keys(cart).map(Number).sort((a, b) => a - b);
+  const totalQty = ids.reduce((s, id) => s + cart[id], 0);
+
+  const badge = $('cartBadge');
+  badge.textContent = ids.length;
+  badge.classList.toggle('hidden', ids.length === 0);
+
+  $('cartEmpty').classList.toggle('hidden', ids.length > 0);
+  $('cartFilled').classList.toggle('hidden', ids.length === 0);
+  $('cartFooter').classList.toggle('hidden', ids.length === 0);
+  $('cartSummary').textContent = `${ids.length} varian, ${totalQty} pcs`;
+
+  $('cartList').innerHTML = ids.map(id => `
+    <li class="flex items-center gap-3 px-5 py-3" data-id="${id}">
+      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-joy-100 to-sun-200 flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-ice-cream text-joy-500"></i>
+      </div>
+      <p class="flex-1 min-w-0 font-bold text-joy-800 leading-tight">${esc(BY_ID[id].name)}</p>
+      <div class="flex items-center bg-joy-50 rounded-full p-0.5">
+        <button data-act="dec" class="w-8 h-8 rounded-full bg-white text-joy-600 shadow-sm" aria-label="Kurangi"><i class="fa-solid fa-minus text-xs"></i></button>
+        <input data-act="input" type="number" min="1" max="999" value="${cart[id]}" class="w-11 text-center font-bold bg-transparent focus:outline-none" aria-label="Jumlah">
+        <button data-act="inc" class="w-8 h-8 rounded-full bg-white text-joy-600 shadow-sm" aria-label="Tambah"><i class="fa-solid fa-plus text-xs"></i></button>
+      </div>
+      <button data-act="del" class="w-9 h-9 rounded-full text-red-500 hover:bg-red-50" aria-label="Hapus"><i class="fa-solid fa-trash"></i></button>
+    </li>`).join('');
+}
+
+$('cartList').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-act]');
+  if (!btn) return;
+  const id = +btn.closest('li').dataset.id;
+  if (btn.dataset.act === 'inc') cart[id] = clamp(cart[id] + 1, 1, 999);
+  if (btn.dataset.act === 'dec') cart[id] = clamp(cart[id] - 1, 1, 999);
+  if (btn.dataset.act === 'del') delete cart[id];
+  saveState(); renderCart();
+});
+$('cartList').addEventListener('change', e => {
+  if (!e.target.matches('input[data-act="input"]')) return;
+  const id = +e.target.closest('li').dataset.id;
+  cart[id] = clamp(parseInt(e.target.value) || 1, 1, 999);
+  saveState(); renderCart();
+});
+$('clearCart').addEventListener('click', () => {
+  if (confirm('Kosongkan semua isi keranjang?')) { cart = {}; saveState(); renderCart(); }
+});
+
+/* ===================== DRAWER ===================== */
+function openDrawer() {
+  $('drawer').classList.remove('translate-x-full');
+  $('drawer').setAttribute('aria-hidden', 'false');
+  $('overlay').classList.remove('opacity-0', 'pointer-events-none');
+  document.body.style.overflow = 'hidden';
+  $('closeCart').focus();
+}
+function closeDrawer() {
+  $('drawer').classList.add('translate-x-full');
+  $('drawer').setAttribute('aria-hidden', 'true');
+  $('overlay').classList.add('opacity-0', 'pointer-events-none');
+  document.body.style.overflow = '';
+}
+$('openCart').addEventListener('click', openDrawer);
+$('closeCart').addEventListener('click', closeDrawer);
+$('overlay').addEventListener('click', closeDrawer);
+$('backToShop').addEventListener('click', () => { closeDrawer(); location.hash = 'katalog'; });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+/* ===================== CHECKOUT WHATSAPP ===================== */
+['kios', 'alamat'].forEach(id => $(id).addEventListener('input', () => {
+  saveState();
+  $(id + 'Err').classList.add('hidden');
+}));
+
+$('sendWA').addEventListener('click', () => {
+  const kios = $('kios').value.trim();
+  const alamat = $('alamat').value.trim();
+  $('kiosErr').classList.toggle('hidden', !!kios);
+  $('alamatErr').classList.toggle('hidden', !!alamat);
+  if (!kios) return $('kios').focus();
+  if (!alamat) return $('alamat').focus();
+
+  const ids = Object.keys(cart).map(Number).sort((a, b) => a - b);
+  if (!ids.length) return;
+
+  // Hanya nama produk, satu per baris (tanpa bintang, tanpa "pcs", tanpa baris kosong ganda)
+  const lines = ids.map(id => BY_ID[id].name).join('\n');
+  const message =
+    `Kios: ${kios}\n` +
+    `Alamat: ${alamat}\n\n` +
+    `Detail Pesanan:\n${lines}\n\n`;
+
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+
+  // Setelah kirim: kosongkan keranjang, reset form, perbarui localStorage & tampilan, tutup drawer
+  cart = {};
+  $('kios').value = '';
+  $('alamat').value = '';
+  $('kiosErr').classList.add('hidden');
+  $('alamatErr').classList.add('hidden');
+  saveState();
+  renderCart();
+  closeDrawer();
+});
+
+/* ===================== TOAST ===================== */
+let toastTimer;
+function toast(msg) {
+  const t = $('toast');
+  t.innerHTML = `<i class="fa-solid fa-circle-check text-sun-300 mr-2"></i>${msg}`;
+  t.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.add('hidden'), 1800);
+}
+
+/* ===================== INIT ===================== */
+async function init() {
+  try {
+    const res = await fetch('products.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    WA_NUMBER = String(data.whatsapp || '').replace(/\D/g, '');
+    PRODUCTS = (data.products || []).filter(p => p && Number.isInteger(p.id) && typeof p.name === 'string');
+    if (!WA_NUMBER || !PRODUCTS.length) throw new Error('Data JSON tidak lengkap');
+    PRODUCTS.forEach(p => BY_ID[p.id] = p);
+  } catch (err) {
+    $('grid').innerHTML = `<div class="col-span-full bg-white rounded-3xl p-8 text-center">
+      <i class="fa-solid fa-triangle-exclamation text-4xl text-sun-500"></i>
+      <p class="mt-3 font-bold text-joy-800">Data produk gagal dimuat.</p>
+      <p class="text-slate-500 text-sm mt-1">Pastikan <b>products.json</b> ada di folder yang sama dan halaman dibuka lewat server (bukan klik ganda file). Contoh: <code>npx serve</code> atau <code>python3 -m http.server</code>.</p></div>`;
+    $('resultInfo').textContent = '';
+    return;
+  }
+  loadState();
+  // buang item keranjang yang produknya sudah tidak ada di JSON
+  Object.keys(cart).forEach(id => { if (!BY_ID[id]) delete cart[id]; });
+  renderGrid();
+  renderCart();
+}
+init();
+</script>
+</body>
+</html>
