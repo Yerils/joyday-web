@@ -24,12 +24,12 @@
     {
       "id": 5,
       "name": "Crunchy bar",
-      "image": "foto/"
+      "image": "foto/Crunchy-bar.jpeg"
     },
     {
       "id": 6,
       "name": "Crunchy bar stroberi",
-      "image": "foto/"
+      "image": "foto/Crunchy-bar-st.jpeg"
     },
     {
       "id": 7,
@@ -74,7 +74,7 @@
     {
       "id": 15,
       "name": "Happy cow",
-      "image": "foto/happy cow.jpg"
+      "image": "foto/happy-cow.jpeg"
     },
     {
       "id": 16,
@@ -159,7 +159,7 @@
     {
       "id": 32,
       "name": "Choco fun",
-      "image": ""
+      "image": "foto/cocofun.jpeg"
     },
     {
       "id": 33,
@@ -204,17 +204,17 @@
     {
       "id": 41,
       "name": "Mochi stroberi",
-      "image": ""
+      "image": "foto/Mochi-s.jpeg"
     },
     {
       "id": 42,
       "name": "Mochi coklat",
-      "image": ""
+      "image": "foto/Mochi-c.jpeg"
     },
     {
       "id": 43,
       "name": "Mochi durian",
-      "image": ""
+      "image": "foto/Mochi-d.jpeg"
     },
     {
       "id": 44,
