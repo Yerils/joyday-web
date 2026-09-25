@@ -166,17 +166,24 @@ const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 const safeImg = u => (/^(https:\/\/|\.?\/?[\w\-\/.]+\.(png|jpe?g|webp|gif|svg)$)/i.test(u || '') ? esc(u) : '');
 
 /* ===================== STATE ===================== */
-const STORE_KEY = 'joyday_cart_v1';
-let cart = {};      // { productId: qty }
-const draft = {};   // jumlah sementara di kartu katalog
+const STORE_KEY = 'joyday_cart_v2';
+const UNITS = ['Q', 'Pcs'];
+let cart = {};      // { productId: { qty: number, unit: 'Q' | 'Pcs' } }
 
 const $ = id => document.getElementById(id);
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+const normUnit = u => (u === 'Pcs' ? 'Pcs' : 'Q');
 
 function loadState() {
   try {
     const s = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
     cart = s.cart || {};
+    // rapikan data yang mungkin rusak/format lama
+    Object.keys(cart).forEach(id => {
+      const item = cart[id];
+      if (!item || typeof item !== 'object') { delete cart[id]; return; }
+      cart[id] = { qty: clamp(parseInt(item.qty) || 1, 1, 999), unit: normUnit(item.unit) };
+    });
     if (s.kios) $('kios').value = s.kios;
     if (s.alamat) $('alamat').value = s.alamat;
     if (s.catatan) $('catatan').value = s.catatan;
@@ -224,10 +231,16 @@ $('grid').addEventListener('click', e => {
   if (btn.dataset.act === 'dec') input.value = clamp(cur - 1, 1, 999);
   if (btn.dataset.act === 'inc') input.value = clamp(cur + 1, 1, 999);
   if (btn.dataset.act === 'add') {
-    cart[id] = clamp((cart[id] || 0) + cur, 1, 999);
+    // Produk baru selalu masuk dengan satuan default "Q"; produk yang sudah
+    // ada di keranjang cukup ditambah jumlahnya, satuan yang sudah dipilih tetap dipakai.
+    if (cart[id]) {
+      cart[id].qty = clamp(cart[id].qty + cur, 1, 999);
+    } else {
+      cart[id] = { qty: cur, unit: 'Q' };
+    }
     input.value = 1;
     saveState(); renderCart();
-    toast(`${esc(BY_ID[id].name)} (${cur} pcs) masuk keranjang`);
+    toast(`${esc(BY_ID[id].name)} (${cur} ${cart[id].unit}) masuk keranjang`);
   }
 });
 $('grid').addEventListener('change', e => {
@@ -251,7 +264,7 @@ $('search').addEventListener('input', applyFilter);
 /* ===================== KERANJANG ===================== */
 function renderCart() {
   const ids = Object.keys(cart).map(Number).sort((a, b) => a - b);
-  const totalQty = ids.reduce((s, id) => s + cart[id], 0);
+  const totalQty = ids.reduce((s, id) => s + cart[id].qty, 0);
 
   const badge = $('cartBadge');
   badge.textContent = ids.length;
@@ -260,20 +273,30 @@ function renderCart() {
   $('cartEmpty').classList.toggle('hidden', ids.length > 0);
   $('cartFilled').classList.toggle('hidden', ids.length === 0);
   $('cartFooter').classList.toggle('hidden', ids.length === 0);
-  $('cartSummary').textContent = `${ids.length} varian, ${totalQty} pcs`;
+  // Satuan tiap item bisa berbeda (Q/Pcs), jadi total di sini hanya jumlah baris & total unit.
+  $('cartSummary').textContent = `${ids.length} varian, ${totalQty} unit`;
 
   $('cartList').innerHTML = ids.map(id => `
-    <li class="flex items-center gap-3 px-5 py-3" data-id="${id}">
-      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-joy-100 to-sun-200 flex items-center justify-center shrink-0">
-        <i class="fa-solid fa-ice-cream text-joy-500"></i>
+    <li class="flex flex-col gap-2 px-5 py-3" data-id="${id}">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-joy-100 to-sun-200 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-ice-cream text-joy-500"></i>
+        </div>
+        <p class="flex-1 min-w-0 font-bold text-joy-800 leading-tight">${esc(BY_ID[id].name)}</p>
+        <button data-act="del" class="w-9 h-9 rounded-full text-red-500 hover:bg-red-50 shrink-0" aria-label="Hapus ${esc(BY_ID[id].name)}"><i class="fa-solid fa-trash"></i></button>
       </div>
-      <p class="flex-1 min-w-0 font-bold text-joy-800 leading-tight">${esc(BY_ID[id].name)}</p>
-      <div class="flex items-center bg-joy-50 rounded-full p-0.5">
-        <button data-act="dec" class="w-8 h-8 rounded-full bg-white text-joy-600 shadow-sm" aria-label="Kurangi"><i class="fa-solid fa-minus text-xs"></i></button>
-        <input data-act="input" type="number" min="1" max="999" value="${cart[id]}" class="w-11 text-center font-bold bg-transparent focus:outline-none" aria-label="Jumlah">
-        <button data-act="inc" class="w-8 h-8 rounded-full bg-white text-joy-600 shadow-sm" aria-label="Tambah"><i class="fa-solid fa-plus text-xs"></i></button>
+      <div class="flex items-center justify-between gap-2 pl-14">
+        <div class="flex items-center bg-joy-50 rounded-full p-0.5 shrink-0">
+          <button data-act="dec" class="w-8 h-8 rounded-full bg-white text-joy-600 shadow-sm" aria-label="Kurangi jumlah ${esc(BY_ID[id].name)}"><i class="fa-solid fa-minus text-xs"></i></button>
+          <input data-act="input" type="number" min="1" max="999" value="${cart[id].qty}" class="w-11 text-center font-bold bg-transparent focus:outline-none" aria-label="Jumlah ${esc(BY_ID[id].name)}">
+          <button data-act="inc" class="w-8 h-8 rounded-full bg-white text-joy-600 shadow-sm" aria-label="Tambah jumlah ${esc(BY_ID[id].name)}"><i class="fa-solid fa-plus text-xs"></i></button>
+        </div>
+        <select data-act="unit" aria-label="Satuan ${esc(BY_ID[id].name)}"
+                class="flex-1 min-w-0 bg-joy-50 border-2 border-joy-200 rounded-full px-3 py-1.5 font-bold text-sm text-joy-800 focus:border-joy-500 focus:outline-none">
+          <option value="Q" ${cart[id].unit === 'Q' ? 'selected' : ''}>Q</option>
+          <option value="Pcs" ${cart[id].unit === 'Pcs' ? 'selected' : ''}>Pcs</option>
+        </select>
       </div>
-      <button data-act="del" class="w-9 h-9 rounded-full text-red-500 hover:bg-red-50" aria-label="Hapus"><i class="fa-solid fa-trash"></i></button>
     </li>`).join('');
 }
 
@@ -281,15 +304,20 @@ $('cartList').addEventListener('click', e => {
   const btn = e.target.closest('button[data-act]');
   if (!btn) return;
   const id = +btn.closest('li').dataset.id;
-  if (btn.dataset.act === 'inc') cart[id] = clamp(cart[id] + 1, 1, 999);
-  if (btn.dataset.act === 'dec') cart[id] = clamp(cart[id] - 1, 1, 999);
+  if (btn.dataset.act === 'inc') cart[id].qty = clamp(cart[id].qty + 1, 1, 999);
+  if (btn.dataset.act === 'dec') cart[id].qty = clamp(cart[id].qty - 1, 1, 999);
   if (btn.dataset.act === 'del') delete cart[id];
   saveState(); renderCart();
 });
 $('cartList').addEventListener('change', e => {
-  if (!e.target.matches('input[data-act="input"]')) return;
-  const id = +e.target.closest('li').dataset.id;
-  cart[id] = clamp(parseInt(e.target.value) || 1, 1, 999);
+  const li = e.target.closest('li');
+  if (!li) return;
+  const id = +li.dataset.id;
+  if (e.target.matches('input[data-act="input"]')) {
+    cart[id].qty = clamp(parseInt(e.target.value) || 1, 1, 999);
+  } else if (e.target.matches('select[data-act="unit"]')) {
+    cart[id].unit = normUnit(e.target.value);
+  }
   saveState(); renderCart();
 });
 $('clearCart').addEventListener('click', () => {
@@ -336,8 +364,8 @@ $('sendWA').addEventListener('click', () => {
   const ids = Object.keys(cart).map(Number).sort((a, b) => a - b);
   if (!ids.length) return;
 
-  // Satu produk per baris. Jumlah 1 = nama saja; jumlah 2 atau lebih = "Nama x2"
-  const lines = ids.map(id => cart[id] > 1 ? `${BY_ID[id].name} x${cart[id]}` : BY_ID[id].name).join('\n');
+  // Satu produk per baris, dengan jumlah dan satuan yang dipilih: "Nama (3 Q)"
+  const lines = ids.map(id => `${BY_ID[id].name} (${cart[id].qty} ${cart[id].unit})`).join('\n');
   const message =
     `Kios: ${kios}\n` +
     `Alamat: ${alamat}\n\n` +
