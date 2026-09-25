@@ -4,137 +4,137 @@
     {
       "id": 1,
       "name": "Premice macha",
-      "image": ""
+      "image": "images/01-premice-macha.jpg"
     },
     {
       "id": 2,
       "name": "Premice almond",
-      "image": ""
+      "image": "images/02-premice-almond.jpg"
     },
     {
       "id": 3,
       "name": "Cvc",
-      "image": ""
+      "image": "images/03-cvc.jpg"
     },
     {
       "id": 4,
       "name": "Ccl",
-      "image": ""
+      "image": "images/04-ccl.jpg"
     },
     {
       "id": 5,
       "name": "Crunchy bar",
-      "image": ""
+      "image": "images/05-crunchy-bar.png"
     },
     {
       "id": 6,
       "name": "Crunchy bar stroberi",
-      "image": ""
+      "image": "images/06-crunchy-bar-stroberi.png"
     },
     {
       "id": 7,
       "name": "Ccb",
-      "image": ""
+      "image": "images/07-ccb.jpg"
     },
     {
       "id": 8,
       "name": "Ccm",
-      "image": ""
+      "image": "images/08-ccm.jpg"
     },
     {
       "id": 9,
       "name": "Cofelate",
-      "image": ""
+      "image": "images/09-cofelate.jpg"
     },
     {
       "id": 10,
       "name": "Kacang ijo",
-      "image": ""
+      "image": "images/10-kacang-ijo.jpg"
     },
     {
       "id": 11,
       "name": "Lalava",
-      "image": ""
+      "image": "images/11-lalava.jpg"
     },
     {
       "id": 12,
       "name": "Taro",
-      "image": ""
+      "image": "images/12-taro.jpg"
     },
     {
       "id": 13,
       "name": "C blubery",
-      "image": ""
+      "image": "images/13-c-blubery.jpg"
     },
     {
       "id": 14,
       "name": "C stroberi",
-      "image": ""
+      "image": "images/14-c-stroberi.jpeg"
     },
     {
       "id": 15,
       "name": "Happy cow",
-      "image": ""
+      "image": "images/15-happy-cow.jpg"
     },
     {
       "id": 16,
       "name": "Happy duck",
-      "image": ""
+      "image": "images/16-happy-duck.png"
     },
     {
       "id": 17,
       "name": "Sweet corn",
-      "image": ""
+      "image": "images/17-sweet-corn.png"
     },
     {
       "id": 18,
       "name": "Choco corn",
-      "image": ""
+      "image": "images/18-choco-corn.jpeg"
     },
     {
       "id": 19,
       "name": "Choco Crunchy",
-      "image": ""
+      "image": "images/19-choco-crunchy.png"
     },
     {
       "id": 20,
       "name": "Choco omalt",
-      "image": ""
+      "image": "images/20-choco-omalt.png"
     },
     {
       "id": 21,
       "name": "Cotton candy",
-      "image": ""
+      "image": "images/21-cotton-candy.png"
     },
     {
       "id": 22,
       "name": "Twiscone coffee",
-      "image": ""
+      "image": "images/22-twiscone-coffee.png"
     },
     {
       "id": 23,
       "name": "Twiscone forest",
-      "image": ""
+      "image": "images/23-twiscone-forest.png"
     },
     {
       "id": 24,
       "name": "Frutti duo",
-      "image": ""
+      "image": "images/24-frutti-duo.png"
     },
     {
       "id": 25,
       "name": "Tropical duo",
-      "image": ""
+      "image": "images/25-tropical-duo.png"
     },
     {
       "id": 26,
       "name": "Galaxi",
-      "image": ""
+      "image": "images/26-galaxi.png"
     },
     {
       "id": 27,
       "name": "Susu",
-      "image": ""
+      "image": "images/27-susu.png"
     },
     {
       "id": 28,
@@ -144,17 +144,17 @@
     {
       "id": 29,
       "name": "Choco bery",
-      "image": ""
+      "image": "images/29-choco-bery.png"
     },
     {
       "id": 30,
       "name": "Nanas",
-      "image": ""
+      "image": "images/30-nanas.png"
     },
     {
       "id": 31,
       "name": "Semanga",
-      "image": ""
+      "image": "images/31-semanga.png"
     },
     {
       "id": 32,
@@ -179,27 +179,27 @@
     {
       "id": 36,
       "name": "Grande scoop",
-      "image": ""
+      "image": "images/36-grande-scoop.png"
     },
     {
       "id": 37,
       "name": "D scoop coklat",
-      "image": ""
+      "image": "images/37-d-scoop-coklat.jpeg"
     },
     {
       "id": 38,
       "name": "D scoop manga",
-      "image": ""
+      "image": "images/38-d-scoop-manga.jpeg"
     },
     {
       "id": 39,
       "name": "D scoop stroberi",
-      "image": ""
+      "image": "images/39-d-scoop-stroberi.jpeg"
     },
     {
       "id": 40,
       "name": "D scoop vanila",
-      "image": ""
+      "image": "images/40-d-scoop-vanila.jpeg"
     },
     {
       "id": 41,
@@ -219,12 +219,12 @@
     {
       "id": 44,
       "name": "Joycone",
-      "image": ""
+      "image": "images/44-joycone.png"
     },
     {
       "id": 45,
       "name": "Neapolitan 350",
-      "image": ""
+      "image": "images/45-neapolitan-350.png"
     },
     {
       "id": 46,
@@ -234,17 +234,17 @@
     {
       "id": 47,
       "name": "Sandwich tiramisu",
-      "image": ""
+      "image": "images/47-sandwich-tiramisu.png"
     },
     {
       "id": 48,
       "name": "Sandwich macha",
-      "image": ""
+      "image": "images/48-sandwich-macha.png"
     },
     {
       "id": 49,
       "name": "Sandwich vanilla bery",
-      "image": ""
+      "image": "images/49-sandwich-vanilla-bery.png"
     },
     {
       "id": 50,
@@ -269,7 +269,7 @@
     {
       "id": 54,
       "name": "Neapolitan 160ml",
-      "image": ""
+      "image": "images/54-neapolitan-160ml.png"
     }
   ]
 }
